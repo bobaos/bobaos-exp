@@ -7,6 +7,20 @@ let myClient = BdsdClient();
 
 myClient.on('connect', _ => {
   console.log('client connected');
+  
+  // invert datapoint value every second
+  setInterval( _ => {
+    console.log('switching datapoint');
+    myClient
+    .getValue(9)
+    .then(payload => {
+            myClient
+              .setValue(payload.id, !payload.value)
+	      .then(_ => { console.log(`switching datapoint ${payload.id} successful` )})
+	      .catch(console.log);
+    })
+    .catch(console.log);
+  }, 1000);
 });
 
 // Register listener for broadcasted values
