@@ -8,3 +8,8 @@ let myClient = BdsdClient();
 myClient.on('connect', _ => {
   console.log('client connected');
 });
+
+// Register listener for broadcasted values
+myClient.on('value', data => {
+  // console.log('broadcasted value', data);
+});
