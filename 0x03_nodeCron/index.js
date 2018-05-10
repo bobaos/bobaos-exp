@@ -10,10 +10,10 @@ myClient.on('connect', _ => {
   console.log('client connected');
 });
 
-// every 5 minutes we change datapoint 9 value
+// every 5 minutes we change datapoint 102 value
 cron.schedule('*/5 * * * *', _ => {
   myClient
-    .getValue(9)
+    .getValue(102)
     .then(payload => {
       myClient
         .setValue(payload.id, !payload.value)
