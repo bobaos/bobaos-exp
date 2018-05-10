@@ -1,4 +1,5 @@
 const BdsdClient = require('bdsd.client');
+const cron = require('node-cron');
 
 // BdsdClient function accepts socket filename as an argument. 
 // If no argument provided then it will try to connect to following file:
@@ -7,22 +8,21 @@ let myClient = BdsdClient();
 
 myClient.on('connect', _ => {
   console.log('client connected');
+});
 
-  // invert datapoint value every second
-  setInterval(_ => {
-    console.log('switching datapoint');
-    myClient
-      .getValue(9)
-      .then(payload => {
-        myClient
-          .setValue(payload.id, !payload.value)
-          .then(_ => {
-            console.log(`switching datapoint ${payload.id} successful`)
-          })
-          .catch(console.log);
-      })
-      .catch(console.log);
-  }, 1000);
+// every 5 minutes we change datapoint 9 value
+cron.schedule('*/5 * * * *', function () {
+  myClient
+    .getValue(9)
+    .then(payload => {
+      myClient
+        .setValue(payload.id, !payload.value)
+        .then(_ => {
+          console.log(`switching datapoint ${payload.id} successful`)
+        })
+        .catch(console.log);
+    })
+    .catch(console.log);
 });
 
 // Register listener for broadcasted values

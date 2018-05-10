@@ -10,8 +10,10 @@ myClient.on('connect', _ => {
   myClient
     .getDatapoints()
     .then(payload => {
-       console.log('All configured datapoints:');
-       console.log(payload.map(t => { return {id: t.id, dpt: t.dpt}}));
+      console.log('All configured datapoints:');
+      console.log(payload.map(t => {
+        return {id: t.id, dpt: t.dpt}
+      }));
     })
     .catch(console.log);
 });

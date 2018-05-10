@@ -17,6 +17,7 @@
   },
   "homepage": "https://github.com/bobaos/bobaos-exp#readme",
   "dependencies": {
-    "bdsd.client": "^1.0.4"
+    "bdsd.client": "^1.0.4",
+    "node-cron": "^1.2.1"
   }
 }
