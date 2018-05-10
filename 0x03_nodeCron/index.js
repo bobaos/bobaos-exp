@@ -11,7 +11,7 @@ myClient.on('connect', _ => {
 });
 
 // every 5 minutes we change datapoint 9 value
-cron.schedule('*/5 * * * *', function () {
+cron.schedule('*/5 * * * *', _ => {
   myClient
     .getValue(9)
     .then(payload => {
