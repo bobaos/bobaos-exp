@@ -31,6 +31,8 @@ const watch = async (status, control) => {
     await storage.setItem(`datapoint_${status}`, value);
   } else {
     console.log(`${status} already watched`);
+    watched[i] = {status: status, control: control};
+    await storage.setItem('watched', watched);
     let value = (await bdsd.getStoredValue(status)).value;
     await storage.setItem(`datapoint_${status}`, value);
   }
