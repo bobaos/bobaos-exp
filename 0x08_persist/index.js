@@ -3,9 +3,7 @@ const storage = require('node-persist');
 
 let watched;
 
-// TODO: get list of watched events
-//
-//
+// get list of watched datapoints. if there is no one, init empty
 const init = async _ => {
   try {
     await storage.init();
@@ -20,6 +18,7 @@ const init = async _ => {
   }
 };
 
+// watch datapoint with feedback. first arg is feedback, second is control datapoint
 const watch = async (status, control) => {
   const findByStatus = t => t.status === status;
   let i = watched.findIndex(findByStatus);
@@ -37,6 +36,7 @@ const watch = async (status, control) => {
   }
 };
 
+// unwatch.
 const unwatch = async id => {
   const findByStatus = t => t.status === status;
   let i = watched.findIndex(findByStatus);
@@ -47,6 +47,7 @@ const unwatch = async id => {
   }
 };
 
+// restore function
 const restore = async _ => {
   try {
     watched.forEach(async w => {
@@ -64,20 +65,19 @@ let bdsd = Bdsd();
 
 bdsd.on('connect', async _ => {
   console.log('client connected');
-  // TODO: read storage for watched events then send to bus values from storage
-  //  let datapoints = await
   await init();
+  // here we add datapoints to watch
   await watch(1, 1);
   await watch(2, 2);
   await watch(3, 3);
   await restore();
 });
 
+// and every 3 sec send data to bus
 setInterval(restore, 3000);
 
-// Register listener for broadcasted values
+// Register listener for broadcasted values, write data to persist storage
 bdsd.on('value', async payload => {
-  // console.log('broadcasted value', data);
   let {id, value} = payload;
   let i = watched.indexOf(id);
   if (i > -1) {
