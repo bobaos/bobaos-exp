@@ -19,6 +19,7 @@
   "dependencies": {
     "bdsd.client": "^2.0.11",
     "mythermostat": "^1.0.0",
-    "node-cron": "^1.2.1"
+    "node-cron": "^1.2.1",
+    "node-persist": "^3.0.1"
   }
 }
